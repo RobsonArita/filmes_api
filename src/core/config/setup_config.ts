@@ -13,7 +13,6 @@ export const setupRoutes = (app: Express) => {
 
 export const setupMiddlewares = (app: Express): void => {
   app.use(json({ limit: '100mb' }))
-  // app.use(urlencoded({ extended: false, limit: '100mb' }))
 
   app.use(terminalConsole)
 
