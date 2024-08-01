@@ -1,15 +1,12 @@
 import express, { Request, Response } from 'express'
 import * as dotenv from 'dotenv'
+import http from 'http'
+import { setupRoutes, setupServer } from './core/config/setup_config'
 
 const app = express()
-const port = 3000
+const server = http.createServer(app)
 
 dotenv.config()
 
-// app.get('/', (req: Request, res: Response) => {
-//   res.send('Hello, World!')
-// })
-
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`)
-// })
+setupRoutes(app)
+setupServer(server)

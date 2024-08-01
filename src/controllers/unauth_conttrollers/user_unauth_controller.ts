@@ -5,10 +5,11 @@ class UserUnauthController extends Controller {
     handle (): Router {
 
         this.router.post('/', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response) 
+
             try  {
-                
-                response.status(200)
-                return response.json({ success: true })
+
+                return handleResponser.sendOk({ data: 1 })
             } catch (err) {
 
             }
