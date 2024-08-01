@@ -16,6 +16,10 @@ export default class Responser {
         this.response.status(400).json(data) 
     }
 
+    sendNotFound (data: TData) {
+        this.response.status(404).json(data) 
+    }
+
     sendInternalServerError (data: TData) {
         this.response.status(500).json(data) 
     }

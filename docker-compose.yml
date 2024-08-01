@@ -1,0 +1,49 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mydatabase
+    depends_on:
+      - postgres
+      - mongo
+      - mailhog
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - default
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha_do_postgres
+      POSTGRES_DB: filmes
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

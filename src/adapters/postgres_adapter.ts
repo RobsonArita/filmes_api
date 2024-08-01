@@ -1,14 +1,7 @@
-// Importando PrismaClient do pacote @prisma/client
 import { PrismaClient, User } from '@prisma/client'
 
-interface IPostgresAdapter {
-    createUser(name: string, email: string, password: string): Promise<User>
-    getUserById(userId: number): Promise<User | null>
-    updateUser(userId: number, data: Partial<User>): Promise<User>
-    deleteUser(userId: number): Promise<User>
-}
 
-class PostgressAdapter implements IPostgresAdapter {
+class PostgressAdapter {
     private prisma: PrismaClient
 
     constructor() {
@@ -30,15 +23,44 @@ class PostgressAdapter implements IPostgresAdapter {
         })
     }
 
-    async getUserById(userId: number): Promise<User | null> {
+    async emailExists(email: string): Promise<boolean> {
+        const user = await this.prisma.user.findUnique({
+          where: { email }
+        })
+        return user !== null
+    }
+
+    async getUserById(userId: number, omitPassword: boolean = true): Promise<Omit<User, 'password'> | null> {
         return this.prisma.user.findUnique({
             where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true,
+                password: omitPassword
+            },
         })
     }
 
-    async updateUser(userId: number, data: Partial<User>): Promise<User> {
+    async getUserByEmail(email: string, selectPassword: boolean = false) {
+        return this.prisma.user.findUnique({
+            where: { email: email },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true,
+                password: selectPassword
+            },
+        })
+    }
+
+    async updateUser(where: any, data: Partial<User>): Promise<User> {
         return this.prisma.user.update({
-            where: { id: userId },
+            where,
             data: { ...data, updatedAt: this.timeNow() },
         })
     }
@@ -50,25 +72,5 @@ class PostgressAdapter implements IPostgresAdapter {
     }
 }
 
-// // Uso do adapter
-// (async () => {
-//   const dbAdapter = new PrismaDatabaseAdapter()
 
-//   // Criar um usuário
-//   const newUser = await dbAdapter.createUser('Alice', 'alice@example.com')
-//   console.log('Created User:', newUser)
-
-//   // Buscar um usuário por ID
-//   const user = await dbAdapter.getUserById(newUser.id)
-//   console.log('Fetched User:', user)
-
-//   // Atualizar um usuário
-//   const updatedUser = await dbAdapter.updateUser(newUser.id, { name: 'Alice Updated' })
-//   console.log('Updated User:', updatedUser)
-
-//   // Deletar um usuário
-//   const deletedUser = await dbAdapter.deleteUser(newUser.id)
-//   console.log('Deleted User:', deletedUser)
-// })()
-
-export default new PostgressAdapter
+export default PostgressAdapter 

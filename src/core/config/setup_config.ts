@@ -3,7 +3,8 @@ import { unauthRouter } from '../../routers/unauth_router'
 import { json, Router, urlencoded } from 'express'
 import Http from 'http'
 import colors from 'colors'
-import { timeAsDayjs } from '../../helpers/time'
+import { timeAsDayjs } from '../../utils/time'
+import settings from '../settings'
 
 export const setupRoutes = (app: Express) => {
   setupMiddlewares(app)
@@ -12,7 +13,7 @@ export const setupRoutes = (app: Express) => {
 
 export const setupMiddlewares = (app: Express): void => {
   app.use(json({ limit: '100mb' }))
-  app.use(urlencoded({ extended: false, limit: '100mb' }))
+  // app.use(urlencoded({ extended: false, limit: '100mb' }))
 
   app.use(terminalConsole)
 
@@ -60,10 +61,10 @@ const terminalConsole = (request: Request, _: Response, next: NextFunction) => {
 export default terminalConsole
 
 export const setupServer = (app: Http.Server): void => {
-  console.log(colors.blue('SERVER: Is running on'), colors.yellow(`${process.env.LOCAL_IP}:${process.env.PORT}`))
+  console.log(colors.blue('SERVER: Is running on'), colors.yellow(`${settings.IP}:${settings.PORT}`))
 
   //@ts-ignore
-  app.listen(process.env.PORT, process.env.LOCAL_IP)
+  app.listen(settings.PORT, settings.IP)
 }
 
 
