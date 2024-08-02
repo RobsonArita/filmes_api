@@ -8,7 +8,7 @@ import {
   AutenticatedEmailNotFound,
   RegisteredEmailNotFound,
   UserNotFound,
-} from '../../src/middlewares/error_handler'
+} from '../../src/middlewares/error_handler_middleware'
 import settings from '../../src/core/settings'
 import { sendEmail } from '../../src/utils/email'
 

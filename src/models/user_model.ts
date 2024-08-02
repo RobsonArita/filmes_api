@@ -26,4 +26,10 @@ export default class UserModel {
             password: this.password,
         }
     }
+
+    static adminUser = new UserModel({
+        email: 'admin_user@robsonapi.com',
+        name: 'admin',
+        password: 'mock',
+      })
 }

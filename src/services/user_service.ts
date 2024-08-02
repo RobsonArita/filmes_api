@@ -1,10 +1,10 @@
 import { Service } from '../core/service'
 import settings from '../core/settings'
-import { AlreadyRegisteredUserException, AutenticatedEmailNotFound, RegisteredEmailNotFound, UserNotFound } from '../middlewares/error_handler'
 import UserModel from '../models/user_model'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { sendEmail } from '../utils/email'
+import { AlreadyRegisteredUserException, AutenticatedEmailNotFound, RegisteredEmailNotFound, UserNotFound } from '../core/exceptions'
 
 export class UserService extends Service {
     async create(user: UserModel) {

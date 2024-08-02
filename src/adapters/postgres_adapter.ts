@@ -1,4 +1,4 @@
-import { PrismaClient, User } from '@prisma/client'
+import { PrismaClient, User, Package } from '@prisma/client'
 
 
 class PostgressAdapter {
@@ -46,7 +46,7 @@ class PostgressAdapter {
 
     async getUserByEmail(email: string, selectPassword: boolean = false) {
         return this.prisma.user.findUnique({
-            where: { email: email },
+            where: { email },
             select: {
                 id: true,
                 name: true,
@@ -70,6 +70,66 @@ class PostgressAdapter {
             where: { id: userId },
         })
     }
+
+    async createPackage(name: string, enabledThemes: string[], version: number = 1) {
+        return this.prisma.package.create({
+            data: {
+                name,
+                enabledThemes,
+                version,
+                createdAt: this.timeNow()
+            },
+        })
+    }
+
+    async packageNameExists(name: string): Promise<boolean> {
+        const pack = await this.prisma.user.findFirst({
+          where: { name }
+        })
+        return pack !== null
+    }
+
+    async updatePackage(where: { id: number }, data: Partial<Package>): Promise<Package> {
+        return this.prisma.package.update({
+            where,
+            data: { ...data, updatedAt: this.timeNow() },
+        })
+    }
+
+    async getPackageById(packageId: number): Promise<Package | null> {
+        return this.prisma.package.findUnique({
+            where: { id: packageId },
+        })
+    }
+
+    async getPackageByName(name: string): Promise<Package | null> {
+        return this.prisma.package.findFirst({
+            where: { name },
+        })
+    }
+
+    async addUserToPackage(userId: number, packageId: number) {
+        return this.prisma.package.update({
+            where: { id: packageId },
+            data: {
+                users: {
+                    connect: { id: userId },
+                },
+            },
+        })
+    }
+
+    async addPackageToUser(packageId: number, userId: number) {
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                packages: {
+                    connect: { id: packageId },
+                },
+            },
+        })
+    }
+    
 }
 
 

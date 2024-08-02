@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { Controller } from "../../core/controller";
-import UserModel from "../../models/user_model";
-import { UserService } from "../../services/user_service";
-import PostgressAdapter from "../../adapters/postgres_adapter";
-import Rules from "../../core/rules";
+import { NextFunction, Request, Response, Router } from 'express'
+import { Controller } from '../../core/controller'
+import UserModel from '../../models/user_model'
+import { UserService } from '../../services/user_service'
+import PostgressAdapter from '../../adapters/postgres_adapter'
+import Rules from '../../core/rules'
 
 class UserUnauthController extends Controller {
     rules = new Rules()

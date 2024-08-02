@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import user_unauth_controller from '../controllers/unauth_conttrollers/user_unauth_controller'
 import Responser from '../core/responser'
-import errorHandler from '../middlewares/error_handler'
+import errorHandler from '../middlewares/error_handler_middleware'
 
 const unauthRouter = Router()
 

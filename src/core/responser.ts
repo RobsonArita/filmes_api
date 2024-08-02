@@ -20,6 +20,10 @@ export default class Responser {
         this.response.status(404).json(data) 
     }
 
+    sendUnauthorized (data: TData) {
+        this.response.status(401).json(data)
+    }
+
     sendInternalServerError (data: TData) {
         this.response.status(500).json(data) 
     }

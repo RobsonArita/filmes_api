@@ -1,6 +1,6 @@
 import requestCheck from 'request-check'
 import { isEmail, isString } from '../utils/validator'
-import { CustomError } from '../middlewares/error_handler'
+import { CustomError } from './exceptions'
 
 
 export default class Rules {
