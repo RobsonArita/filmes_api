@@ -1,3 +1,4 @@
-npx prisma migrate deploy
+#!/bin/sh
 
-exec yarn dev
+npx prisma migrate deploy
+exec yarn de

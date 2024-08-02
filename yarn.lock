@@ -3380,7 +3380,7 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
 
 prisma@^5.17.0:
   version "5.17.0"
-  resolved "https://registry.npmjs.org/prisma/-/prisma-5.17.0.tgz"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-5.17.0.tgz#267b43921ab94805b010537cffa5ccaf530fa066"
   integrity sha512-m4UWkN5lBE6yevqeOxEvmepnL5cNPEjzMw2IqDB59AcEV6w7D8vGljDLd1gPFH+W6gUxw9x7/RmN5dCS/WTPxA==
   dependencies:
     "@prisma/engines" "5.17.0"
