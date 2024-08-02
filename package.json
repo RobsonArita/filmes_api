@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
+    "@types/sinon": "^17.0.3",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
@@ -40,6 +41,7 @@
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.14",
     "request-check": "^1.5.4",
+    "sinon": "^18.0.0",
     "to": "^0.2.9",
     "tsnd": "^1.1.0"
   }
