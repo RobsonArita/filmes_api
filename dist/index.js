@@ -4,11 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const http_1 = __importDefault(require("http"));
+const setup_config_1 = require("./core/config/setup_config");
 const app = (0, express_1.default)();
-const port = 3000;
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+const server = http_1.default.createServer(app);
+(0, setup_config_1.setupRoutes)(app);
+(0, setup_config_1.setupServer)(server);
