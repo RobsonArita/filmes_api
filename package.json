@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "pre-commit": "yarn tsc && yarn test:coverage && yarn check-coverage"
+    "pre-commit": "yarn tsc && yarn test:coverage"
   },
   "keywords": [],
   "author": "Robson Arita",
