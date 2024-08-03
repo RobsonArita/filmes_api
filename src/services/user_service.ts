@@ -1,12 +1,12 @@
-import { Service } from '../core/service'
 import settings from '../core/settings'
 import UserModel from '../models/user_model'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { sendEmail } from '../utils/email'
 import { AlreadyRegisteredUserException, AutenticatedEmailNotFound, RegisteredEmailNotFound, UserNotFound } from '../core/exceptions'
+import { PostgresService } from '../core/postgres_service'
 
-export class UserService extends Service {
+export class UserService extends PostgresService {
     async create(user: UserModel) {
         const exists = await this.postgresAdapter.emailExists(user.email)
         if (exists) throw new AlreadyRegisteredUserException()

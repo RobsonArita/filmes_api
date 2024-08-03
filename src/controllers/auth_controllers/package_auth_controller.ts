@@ -4,6 +4,8 @@ import PostgressAdapter from '../../adapters/postgres_adapter'
 import Rules from '../../core/rules'
 import PackageModel from '../../models/package_model'
 import { PackageService } from '../../services/package_service'
+import { GenreService } from '../../services/genre_service'
+import { MongoAdapter } from '../../adapters/mongo_adapter'
 
 class PackageAuthController extends Controller {
     rules = new Rules()
@@ -23,6 +25,14 @@ class PackageAuthController extends Controller {
                     enabledThemes: request.body.enabledThemes,
                     version: request.body.version,
                 })
+
+                const mongoAdapter = new MongoAdapter()
+                await mongoAdapter.connect()
+
+                const genreService = new GenreService(mongoAdapter)
+                await genreService.validate(request.body.enabledThemes)
+
+                await mongoAdapter.disconnect()
 
                 const packageService = new PackageService(new PostgressAdapter())
 

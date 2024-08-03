@@ -16,6 +16,9 @@ const errorHandlerMiddleware = async (err: IError, request: Request, response: R
     switch (err.code) {
         case 400:
             return handleResponser.sendBadRequest(err.data)
+        
+        case 403: 
+            return handleResponser.sendForbidden(err.data)
 
         case 404:
             return handleResponser.sendNotFound(err.data)

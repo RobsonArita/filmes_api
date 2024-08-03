@@ -18,7 +18,7 @@ export default class UserModel {
         this.password = user.password
     }
 
-    saveDb (): IUser {
+    get saveDb (): IUser {
         return {
             id: this.id,
             name: this.name,

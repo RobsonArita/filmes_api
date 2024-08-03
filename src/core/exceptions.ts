@@ -12,36 +12,43 @@ export class CustomError {
 
 export class AlreadyRegisteredUserException extends CustomError {
   constructor() {
-      super({ code: 400, data: { message: 'Já existe um usuário com o email informado.' } })
+      super({ code: 400, data: { message: 'Email from user already exists.' } })
   }
 }
 
 export class RegisteredEmailNotFound extends CustomError {
   constructor() {
-      super({ code: 400, data: { message: 'Ocorreu um erro.' } })
+      super({ code: 400, data: { message: 'There was an error.' } })
   }
 }
 
 export class AutenticatedEmailNotFound extends CustomError {
   constructor() {
-      super({ code: 400, data: { message: 'Email ou senha inválida' } })
+      super({ code: 400, data: { message: 'Invalid email or password' } })
   }
 }
 
 export class UserNotFound extends CustomError {
   constructor() {
-      super({ code: 404, data: { message: 'Usuário não encontrado.' } })
+      super({ code: 404, data: { message: 'User not found.' } })
   }
 }
 
 export class AlreadyRegisteredPackageException extends CustomError {
   constructor() {
-      super({ code: 400, data: { message: 'Já existe um pacote com o nome informado.' } })
+      super({ code: 400, data: { message: 'Name from package already exists.' } })
   }
 }
 
-export class UnauthorizedException extends CustomError {
+export class ForbiddenExcepption extends CustomError {
   constructor() {
-      super({ code: 401, data: { message: 'Permissão negada.' } })
+      super({ code: 403, data: { message: 'Not allowed.' } })
   }
 }
+
+export class InvalidGenreException extends CustomError {
+  constructor() {
+      super({ code: 400, data: { message: 'Invalid genre(s).' } })
+  }
+}
+

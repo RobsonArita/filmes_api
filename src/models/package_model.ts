@@ -1,9 +1,10 @@
+import { IGenre } from "./genre_model"
 import UserModel from "./user_model"
 
 export interface IPackage {
   id?: number
   name: string
-  enabledThemes?: Array<string>
+  enabledThemes?: Array<IGenre['apiId']>
   createdAt?: Date
   updatedAt?: Date
   version: number
@@ -29,7 +30,7 @@ export default class PackageModel {
       this.users = package_.users
   }
 
-  saveDb (): IPackage {
+  get saveDb (): IPackage {
       return {
           id: this.id,
           name: this.name,

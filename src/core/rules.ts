@@ -1,5 +1,5 @@
 import requestCheck from 'request-check'
-import { isEmail, isString } from '../utils/validator'
+import { isArray, isEmail, isInt, isString } from '../utils/validator'
 import { CustomError } from './exceptions'
 
 
@@ -27,6 +27,16 @@ export default class Rules {
 
         this.validator.addRule('newPassword', {
             validator: (value: any) => isString(value),
+            message: 'Campo inválido!'
+        })
+
+        this.validator.addRule('enabledThemes', {
+            validator: (value: any) => isArray(value) && Boolean((value as []).map(v => isInt(v))),
+            message: 'Campo inválido!'
+        })
+        
+        this.validator.addRule('version', {
+            validator: (value: any) => isInt(value),
             message: 'Campo inválido!'
         })
     }

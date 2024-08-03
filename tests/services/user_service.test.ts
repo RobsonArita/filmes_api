@@ -49,7 +49,7 @@ describe('UserService', () => {
       await expect(userService.create(user)).rejects.toMatchObject({
         code: 400,
         data: {
-          message: 'Já existe um usuário com o email informado.',
+          message: 'Email from user already exists.',
         },
       })
     })
@@ -78,7 +78,7 @@ describe('UserService', () => {
         userService.autenticate('email@example.com', 'password')
       ).rejects.toMatchObject({
         code: 400,
-        data: { message: 'Email ou senha inválida' },
+        data: { message: 'Invalid email or password' },
       })
     })
 
@@ -88,7 +88,7 @@ describe('UserService', () => {
 
       await expect(
         userService.autenticate('email@example.com', 'password')
-      ).rejects.toMatchObject({ code: 404, data: { message: 'Usuário não encontrado.' } })
+      ).rejects.toMatchObject({ code: 404, data: { message: 'User not found.' } })
     })
 
     it('should throw AutenticatedEmailNotFound if password is incorrect', async () => {
@@ -103,7 +103,7 @@ describe('UserService', () => {
 
       await expect(
         userService.autenticate('email@example.com', 'wrong-password')
-      ).rejects.toMatchObject({ code: 400, data: { message: 'Email ou senha inválida' } })
+      ).rejects.toMatchObject({ code: 400, data: { message: 'Invalid email or password' } })
     })
 
     it('should return a token and user details if authentication is successful', async () => {
@@ -135,7 +135,7 @@ describe('UserService', () => {
 
       await expect(
         userService.generatePasswordResetToken('email@example.com')
-      ).rejects.toMatchObject({ code: 400, data: { message: 'Ocorreu um erro.' } })
+      ).rejects.toMatchObject({ code: 400, data: { message: 'There was an error.' } })
     })
 
     it('should throw UserNotFound if user is not found', async () => {
@@ -144,7 +144,7 @@ describe('UserService', () => {
 
       await expect(
         userService.generatePasswordResetToken('email@example.com')
-      ).rejects.toMatchObject({ code: 404, data: { message: 'Usuário não encontrado.' } })
+      ).rejects.toMatchObject({ code: 404, data: { message: 'User not found.' } })
     })
 
     it('should send a reset email if not in local mode', async () => {
@@ -192,7 +192,7 @@ describe('UserService', () => {
 
       await expect(
         userService.resetPassword(token, 'new-password')
-      ).rejects.toMatchObject({ code: 404, data: { message: 'Usuário não encontrado.' } })
+      ).rejects.toMatchObject({ code: 404, data: { message: 'User not found.' } })
     })
 
     it('should update the user password', async () => {

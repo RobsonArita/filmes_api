@@ -71,7 +71,7 @@ class PostgressAdapter {
         })
     }
 
-    async createPackage(name: string, enabledThemes: string[], version: number = 1) {
+    async createPackage(name: string, enabledThemes: number[], version: number = 1) {
         return this.prisma.package.create({
             data: {
                 name,
@@ -83,7 +83,7 @@ class PostgressAdapter {
     }
 
     async packageNameExists(name: string): Promise<boolean> {
-        const pack = await this.prisma.user.findFirst({
+        const pack = await this.prisma.package.findFirst({
           where: { name }
         })
         return pack !== null
