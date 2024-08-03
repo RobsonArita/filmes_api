@@ -11,6 +11,8 @@ COPY . .
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
+
+
 EXPOSE 3000
 
 CMD ["/app/start.sh"]

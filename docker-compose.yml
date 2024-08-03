@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -14,8 +14,6 @@ services:
       - mailhog
     volumes:
       - .:/app
-      - /app/node_modules
-    command: ["yarn", "dev"]
     networks:
       - default
 

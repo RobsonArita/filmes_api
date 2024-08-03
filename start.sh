@@ -1,4 +1,5 @@
 #!/bin/sh
 
 npx prisma migrate deploy
-exec yarn de
+
+exec yarn dev
