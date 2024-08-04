@@ -59,6 +59,10 @@ Os endpoints disponíveis incluem:
 - **Filmes**: Listagem de filmes de acordo com temas dos pacotes e armazenamento de filmes assistidos.
 - **Relatórios**: Emissão de relatórios baseados em filmes assistidos.
 
+Endpoints no postman: 
+[Filmes API.postman_collection.json](https://github.com/user-attachments/files/16488393/Filmes.API.postman_collection.json)
+
+
 ## Autenticação
 
 A API utiliza autenticação JWT para garantir que apenas usuários autorizados possam acessar certas funcionalidades.
