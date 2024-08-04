@@ -3,7 +3,7 @@ import UserModel from '../models/user_model'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { sendEmail } from '../utils/email'
-import { AlreadyRegisteredUserException, AutenticatedEmailNotFound, RegisteredEmailNotFound, UserNotFound } from '../core/exceptions'
+import { AlreadyRegisteredUserException, AutenticatedEmailNotFound, RegisteredEmailNotFound, TokenException, UserNotFound } from '../core/exceptions'
 import { PostgresService } from '../core/postgres_service'
 
 export class UserService extends PostgresService {
@@ -63,16 +63,20 @@ export class UserService extends PostgresService {
     }
 
     async resetPassword(token: string, newPassword: string) {
-        const decoded = jwt.verify(token, settings.JWT_SECRET) as { email: string }
+        try {
+            const decoded = jwt.verify(token, settings.JWT_SECRET) as { email: string }
 
-        const user = await this.postgresAdapter.getUserByEmail(decoded.email)
-        if (!user) throw new UserNotFound()
+            const user = await this.postgresAdapter.getUserByEmail(decoded.email)
+            if (!user) throw new UserNotFound()
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10)
-        await this.postgresAdapter.updateUser(
-            { email: decoded.email },
-            { password: hashedPassword },
-        )
+            const hashedPassword = await bcrypt.hash(newPassword, 10)
+            await this.postgresAdapter.updateUser(
+                { email: decoded.email },
+                { password: hashedPassword },
+            )
+        } catch (err) {
+            throw new TokenException()
+        }
     }
 
     async getAvailablePackages(userId: number) {

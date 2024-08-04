@@ -40,6 +40,12 @@ export class PackageNotFound extends CustomError {
   }
 }
 
+export class TokenException extends CustomError {
+  constructor() {
+      super({ code: 400, data: { message: 'Token inválida.' } })
+  }
+}
+
 export class AlreadyRegisteredPackageException extends CustomError {
   constructor() {
       super({ code: 400, data: { message: 'Name from package already exists.' } })

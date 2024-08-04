@@ -12,6 +12,10 @@ export default class Responser {
         this.response.status(200).json(data) 
     }
 
+    sendCreated (data: TData) {
+        this.response.status(201).json(data) 
+    }
+
     sendBadRequest (data: TData) {
         this.response.status(400).json(data) 
     }

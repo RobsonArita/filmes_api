@@ -15,6 +15,10 @@ A API Filmes é uma aplicação para gerenciamento de usuários e assinaturas de
 - **PostgreSQL**: Banco de dados relacional.
 - **MongoDB**: Banco de dados NoSQL.
 
+## Configuração do ambiente
+Em ambiente de desenvolvimento, basta criar um arquivo .env na raíz do projeto.
+As propriedades de exemplo estão disponíveis no arquivo .env.example, também na raíz do projeto.
+
 ## Instalação
 
 Para rodar a aplicação localmente:
@@ -56,3 +60,6 @@ Os endpoints disponíveis incluem:
 ## Autenticação
 
 A API utiliza autenticação JWT para garantir que apenas usuários autorizados possam acessar certas funcionalidades.
+
+## Detalhes
+Para mais detalhes de implementação, acesse as documentações disponíveis no path /docs do repositório.

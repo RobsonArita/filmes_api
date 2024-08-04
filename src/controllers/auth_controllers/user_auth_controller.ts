@@ -32,7 +32,7 @@ class UserAuthController extends Controller {
                     firstPage: pageNumber <= 1
                 }
 
-                return handleResponser.sendOk({ 
+                return handleResponser.sendCreated({ 
                     data: users,
                     pagination
                 })

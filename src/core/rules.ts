@@ -49,8 +49,18 @@ export default class Rules {
             validator: (value: any) => isInt(value),
             message: 'Campo inválido!'
         })
+
+        this.validator.addRule('id', {
+            validator: (value: any) => isInt(value),
+            message: 'Campo inválido!'
+        })
     
         this.validator.addRule('packageId', {
+            validator: (value: any) => isInt(value),
+            message: 'Campo inválido!'
+        })
+
+        this.validator.addRule('movieId', {
             validator: (value: any) => isInt(value),
             message: 'Campo inválido!'
         })

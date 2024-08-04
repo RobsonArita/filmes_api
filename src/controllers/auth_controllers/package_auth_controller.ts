@@ -39,7 +39,7 @@ class PackageAuthController extends Controller {
                 const packageService = new PackageService(new PostgressAdapter())
                 const created = await packageService.create(pack)
 
-                return handleResponser.sendOk({ created })
+                return handleResponser.sendCreated({ created })
             } catch (err) {
                 next(err)
             }
@@ -50,6 +50,12 @@ class PackageAuthController extends Controller {
             const handleResponser = this.getHandleResponser(response)
             try {
                 const packId = parseInt(request.params.id, 10)
+                this.rules.validate(
+                    { id: packId },
+                    { name: request.body.name },
+                    { enabledThemes: request.body.enabledThemes },
+                    request.body.version ? { version: request.body.version } : {}
+                )
                 const updateData = {
                     name: request.body.name,
                     enabledThemes: request.body.enabledThemes,
