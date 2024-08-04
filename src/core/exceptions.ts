@@ -58,6 +58,12 @@ export class InvalidGenreException extends CustomError {
   }
 }
 
+export class MovieNotFound extends CustomError {
+  constructor() {
+      super({ code: 404, data: { message: 'Movie not found.' } })
+  }
+}
+
 export class ExternalCommunicationException extends CustomError {
   constructor() {
       super({ code: 503, data: { message: 'There was an error communication with external api' } })

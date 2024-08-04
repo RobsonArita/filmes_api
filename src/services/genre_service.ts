@@ -40,4 +40,8 @@ export class GenreService extends MongoService {
     async getGenreIds() {
         return await this.mongoAdapter.getGenreIds()
     }
+
+    async getGenreNameById(id: number) {
+        return (await this.mongoAdapter.getGenreById(id))?.name
+    }
 }

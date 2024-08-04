@@ -1,8 +1,33 @@
+import { Types } from "mongoose"
+
 export interface IUser {
     id?: number
     name: string
     email: string
     password: string
+}
+
+export interface IUserMovie {
+    _id?: Types.ObjectId
+    sqlId: number
+    watchedMovies: Array<Types.ObjectId>
+}
+
+export class UserMovieModel {
+    readonly sqlId: IUserMovie['sqlId']
+    readonly watchedMovies: IUserMovie['watchedMovies']
+
+    constructor(user: IUserMovie) {
+        this.sqlId = user.sqlId
+        this.watchedMovies = user.watchedMovies
+    }
+
+    get saveDb (): IUserMovie {
+        return {
+            sqlId: this.sqlId,
+            watchedMovies: this.watchedMovies,
+        }
+    }
 }
 
 export default class UserModel {

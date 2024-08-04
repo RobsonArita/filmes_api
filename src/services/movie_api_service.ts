@@ -1,8 +1,8 @@
 import HttpAdapter from "../adapters/http_adapter"
-import { ExternalCommunicationException } from "../core/exceptions"
+import { ExternalCommunicationException, MovieNotFound } from "../core/exceptions"
 import settings from "../core/settings"
 import { IExternalAPIGenre } from "../models/genre_model"
-import { IExternalMovieList } from "../models/movie_model"
+import { IExternalMovie, IExternalMovieList } from "../models/movie_model"
 
 export class MovieAPIService {
     private readonly httpAdapter: HttpAdapter
@@ -68,6 +68,25 @@ export class MovieAPIService {
         } catch (err: any) {
             console.warn(err)
             if (err.response?.status === 404) return this.defaultPaginated()
+            throw new ExternalCommunicationException()
+        }
+    }
+
+    async getMovieById(
+        id: number
+    ) {
+        try {
+            const { data } = await this.httpAdapter.get<any>(`/3/movie/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + settings.MOVIE_API_AUTH
+                }
+            })
+
+            return data
+
+        } catch (err: any) {
+            console.warn(err)
+            if (err.response?.status === 404) throw new MovieNotFound()
             throw new ExternalCommunicationException()
         }
     }

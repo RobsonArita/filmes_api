@@ -8,10 +8,42 @@ import PostgressAdapter from '../../adapters/postgres_adapter'
 import { UserService } from '../../services/user_service'
 import { PackageService } from '../../services/package_service'
 import { MovieAPIService } from '../../services/movie_api_service'
+import { MovieService } from '../../services/movie_service'
+import adminMiddleware from '../../middlewares/admin_middleware'
 
 class MovieAuthController extends Controller {
     rules = new Rules()
     handle(): Router {
+        /** [GET] LIST USERS MOVIE REPORT */
+        this.router.get('/report', adminMiddleware, async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const { pageNumber } = request.query
+                this.rules.validate(
+                    pageNumber ? { pageNumber: pageNumber } : {},
+                )
+
+                const mongoAdapter = new MongoAdapter()
+                await mongoAdapter.connect()
+                const postgresAdapter = new PostgressAdapter()
+
+                const userPackageGenreMovieService = new UserPackageGenreMovieService(
+                    new UserService(postgresAdapter),
+                    new PackageService(postgresAdapter),
+                    new GenreService(mongoAdapter),
+                    new MovieAPIService(),
+                    new MovieService(mongoAdapter)
+                )
+
+                const report = await userPackageGenreMovieService.report(Number(pageNumber ?? 1))
+
+                await mongoAdapter.disconnect()
+
+                return handleResponser.sendOk(report)
+            } catch (err) {
+                next(err)
+            }
+        })
 
         /** [GET] LIST PAGINATED MOVIES */
         this.router.get('/', async (request: Request, response: Response, next: NextFunction) => {
@@ -23,7 +55,7 @@ class MovieAuthController extends Controller {
                     genres ? { genres: genres } : {},
                 )
 
-               const mongoAdapter = new MongoAdapter()
+                const mongoAdapter = new MongoAdapter()
                 await mongoAdapter.connect()
                 const postgresAdapter = new PostgressAdapter()
 
@@ -31,7 +63,8 @@ class MovieAuthController extends Controller {
                     new UserService(postgresAdapter),
                     new PackageService(postgresAdapter),
                     new GenreService(mongoAdapter),
-                    new MovieAPIService()
+                    new MovieAPIService(),
+                    new MovieService(mongoAdapter)
                 )
 
                 const list = await userPackageGenreMovieService.listMovies(
@@ -43,6 +76,74 @@ class MovieAuthController extends Controller {
                 await mongoAdapter.disconnect()
 
                 return handleResponser.sendOk(list)
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [PATCH] ADD FAVORITE */
+        this.router.patch('/watch', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const { movieId } = request.body
+                this.rules.validate(
+                    { movieId: movieId }
+                )
+
+                const mongoAdapter = new MongoAdapter()
+                await mongoAdapter.connect()
+                const postgresAdapter = new PostgressAdapter()
+
+                const userPackageGenreMovieService = new UserPackageGenreMovieService(
+                    new UserService(postgresAdapter),
+                    new PackageService(postgresAdapter),
+                    new GenreService(mongoAdapter),
+                    new MovieAPIService(),
+                    new MovieService(mongoAdapter)
+                )
+
+                await userPackageGenreMovieService.watched(
+                    request.user?.id as number,
+                    parseInt(movieId as string, 0) || 0
+                )
+
+                await mongoAdapter.disconnect()
+
+                return handleResponser.sendOk({ message: 'ok' })
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [PATCH] ADD FAVORITE */
+        this.router.patch('/unwatch', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const { movieId } = request.body
+                this.rules.validate(
+                    { movieId: movieId }
+                )
+
+                const mongoAdapter = new MongoAdapter()
+                await mongoAdapter.connect()
+                const postgresAdapter = new PostgressAdapter()
+
+                const userPackageGenreMovieService = new UserPackageGenreMovieService(
+                    new UserService(postgresAdapter),
+                    new PackageService(postgresAdapter),
+                    new GenreService(mongoAdapter),
+                    new MovieAPIService(),
+                    new MovieService(mongoAdapter)
+                )
+
+                await userPackageGenreMovieService.unwatch(
+                    request.user?.id as number,
+                    parseInt(movieId as string, 0) || 0
+                )
+
+                await mongoAdapter.disconnect()
+
+                return handleResponser.sendOk({ message: 'ok' })
             } catch (err) {
                 next(err)
             }
