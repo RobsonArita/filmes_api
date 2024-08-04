@@ -16,6 +16,7 @@ A API Filmes é uma aplicação para gerenciamento de usuários e assinaturas de
 - **MongoDB**: Banco de dados NoSQL.
 
 ## Configuração do ambiente
+
 Em ambiente de desenvolvimento, basta criar um arquivo .env na raíz do projeto.
 As propriedades de exemplo estão disponíveis no arquivo .env.example, também na raíz do projeto.
 
