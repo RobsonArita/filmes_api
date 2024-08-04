@@ -47,7 +47,8 @@ docker-compose up --build
 
 ## Uso
 
-A API oferece vários endpoints para gerenciar usuários, assinaturas de pacotes, listar filmes e emitir relatórios. A documentação completa dos endpoints estará disponível em breve.
+A API oferece vários endpoints para gerenciar usuários, assinaturas de pacotes, listar filmes e emitir relatórios. A documentação completa dos endpoints está disponível
+no path /docs do repositório.
 
 ## Endpoints
 
@@ -62,5 +63,4 @@ Os endpoints disponíveis incluem:
 
 A API utiliza autenticação JWT para garantir que apenas usuários autorizados possam acessar certas funcionalidades.
 
-## Detalhes
-Para mais detalhes de implementação, acesse as documentações disponíveis no path /docs do repositório.
+
