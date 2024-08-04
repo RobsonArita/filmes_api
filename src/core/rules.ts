@@ -39,6 +39,21 @@ export default class Rules {
             validator: (value: any) => isInt(value),
             message: 'Campo inválido!'
         })
+
+        this.validator.addRule('genres', {
+            validator: (value: any) => isArray(value) && Boolean((value as []).map(v => isInt(v))),
+            message: 'Campo inválido!'
+        })
+
+        this.validator.addRule('userId', {
+            validator: (value: any) => isInt(value),
+            message: 'Campo inválido!'
+        })
+    
+        this.validator.addRule('packageId', {
+            validator: (value: any) => isInt(value),
+            message: 'Campo inválido!'
+        })
     }
 
     public invalid (...args: Array<{ [key: string]: any } | null | undefined>): any {

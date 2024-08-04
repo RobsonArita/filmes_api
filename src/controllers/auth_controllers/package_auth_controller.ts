@@ -9,9 +9,10 @@ import { MongoAdapter } from '../../adapters/mongo_adapter'
 
 class PackageAuthController extends Controller {
     rules = new Rules()
+
     handle(): Router {
 
-        /** [POST] CREATE  PACKAGE */
+        /** [POST] CREATE PACKAGE */
         this.router.post('/', async (request: Request, response: Response, next: NextFunction) => {
             const handleResponser = this.getHandleResponser(response)
             try {
@@ -20,6 +21,7 @@ class PackageAuthController extends Controller {
                     { enabledThemes: request.body.enabledThemes },
                     request.body.version ? { version: request.body.version } : {}
                 )
+
                 const pack = new PackageModel({
                     name: request.body.name,
                     enabledThemes: request.body.enabledThemes,
@@ -35,10 +37,92 @@ class PackageAuthController extends Controller {
                 await mongoAdapter.disconnect()
 
                 const packageService = new PackageService(new PostgressAdapter())
-
                 const created = await packageService.create(pack)
 
                 return handleResponser.sendOk({ created })
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [PATCH] UPDATE PACKAGE */
+        this.router.patch('/:id', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const packId = parseInt(request.params.id, 10)
+                const updateData = {
+                    name: request.body.name,
+                    enabledThemes: request.body.enabledThemes,
+                    version: request.body.version,
+                }
+
+                const packageService = new PackageService(new PostgressAdapter())
+                const updated = await packageService.update(packId, updateData)
+
+                return handleResponser.sendOk({ updated })
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [POST] ADD USER TO PACKAGE */
+        this.router.post('/add-user', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const { userId, packageId } = request.body
+
+                this.rules.validate({ userId }, { packageId })
+
+                const packageService = new PackageService(new PostgressAdapter())
+                const result = await packageService.addUserPackage(userId, packageId)
+
+                return handleResponser.sendOk({ result })
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [POST] REMOVE USER FROM PACKAGE */
+        this.router.post('/remove-user', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const { userId, packageId } = request.body
+
+                this.rules.validate({ userId }, { packageId })
+                const packageService = new PackageService(new PostgressAdapter())
+                const result = await packageService.removeUserPackage(userId, packageId)
+
+                return handleResponser.sendOk({ result })
+            } catch (err) {
+                next(err)
+            }
+        })
+
+        /** [GET] LIST PAGINATED PACKAGES */
+        this.router.get('/', async (request: Request, response: Response, next: NextFunction) => {
+            const handleResponser = this.getHandleResponser(response)
+            try {
+                const pageNumber = parseInt(request.query.pageNumber as string, 10) || 1
+                const pageSize = parseInt(request.query.pageSize as string, 10) || 10
+                
+                const packageService = new PackageService(new PostgressAdapter())
+                const packages = await packageService.getPaginatedPackages(pageNumber, pageSize)
+
+                const totalPackages = await packageService.countPackages()
+                const totalPages = Math.ceil(totalPackages / pageSize)
+
+                const pagination = {
+                    pageNumber,
+                    pageSize,
+                    totalPages,
+                    lastPage: pageNumber >= totalPages,
+                    firstPage: pageNumber <= 1
+                }
+
+                return handleResponser.sendOk({ 
+                    data: packages,
+                    pagination
+                })
             } catch (err) {
                 next(err)
             }

@@ -41,6 +41,11 @@ export class MongoAdapter {
         return Boolean(await GenreMongoDB.exists({ apiId }))
     }
 
+    async getGenreIds() {
+        const genres = await GenreMongoDB.find()
+        return genres.map(genre => genre.apiId)
+    }
+
     async fetchPaginatedGenres(
         pageNumber: number,
         pageSize: number,
@@ -55,7 +60,6 @@ export class MongoAdapter {
         const totalCount = await GenreMongoDB.countDocuments(query)
 
         const data = await GenreMongoDB.find(query).skip(skip).limit(pageSize).select('-__v')
-        console.log({ totalCount, pageSize })
         const totalPages = Math.ceil(totalCount / pageSize)
 
         return {

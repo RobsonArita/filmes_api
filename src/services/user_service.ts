@@ -27,12 +27,13 @@ export class UserService extends PostgresService {
         const allowed = await bcrypt.compare(password, user.password)
         if (!allowed) throw new AutenticatedEmailNotFound()
 
-        const token = jwt.sign({ email, name: user.name }, settings.JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ email, name: user.name, id: user.id }, settings.JWT_SECRET, { expiresIn: '1h' })
 
         return {
             token,
             email: user.email,
-            name: user.name
+            name: user.name,
+            id: user.id
         }
     }
 
@@ -74,4 +75,17 @@ export class UserService extends PostgresService {
         )
     }
 
+    async getAvailablePackages(userId: number) {
+        const availabePackages = (await this.postgresAdapter.getUserPackages(userId))?.packages
+
+        return availabePackages
+    }
+
+    async getPaginatedUsers(pageNumber: number, pageSize: number) {
+        return await this.postgresAdapter.getPaginatedUsers(pageNumber, pageSize)
+    }
+
+    async countUsers() {
+        return await this.postgresAdapter.countUsers()
+    }
 }

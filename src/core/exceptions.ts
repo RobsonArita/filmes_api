@@ -34,6 +34,12 @@ export class UserNotFound extends CustomError {
   }
 }
 
+export class PackageNotFound extends CustomError {
+  constructor() {
+      super({ code: 404, data: { message: 'Package not found.' } })
+  }
+}
+
 export class AlreadyRegisteredPackageException extends CustomError {
   constructor() {
       super({ code: 400, data: { message: 'Name from package already exists.' } })
@@ -49,6 +55,12 @@ export class ForbiddenExcepption extends CustomError {
 export class InvalidGenreException extends CustomError {
   constructor() {
       super({ code: 400, data: { message: 'Invalid genre(s).' } })
+  }
+}
+
+export class ExternalCommunicationException extends CustomError {
+  constructor() {
+      super({ code: 503, data: { message: 'There was an error communication with external api' } })
   }
 }
 

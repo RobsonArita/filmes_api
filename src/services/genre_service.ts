@@ -36,4 +36,8 @@ export class GenreService extends MongoService {
 
         console.info('Genres updated')
     }
+
+    async getGenreIds() {
+        return await this.mongoAdapter.getGenreIds()
+    }
 }
