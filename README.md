@@ -38,7 +38,6 @@ Clone o repositório:
 
 ```bash
 git clone https://github.com/RobsonArita/filmes_api
-cd filmes
 ```
 
 ### Docker Standalone
