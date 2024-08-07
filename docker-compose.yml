@@ -7,7 +7,14 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGO_URI=mongodb://mongo:27017/mydatabase
+      - DATABASE_URL=${DATABASE_URL_DOCKER}
+      - MONGO_URI=${MONGO_URI_DOCKER}
+      - ENVIRONMENT=dev
+      - IP=0.0.0.0
+      - PORT=3000
+      - JWT_SECRET=localSecret
+      - RUN_PROCEDURES=true
+      - RUN_ROUTINES=true
     depends_on:
       - postgres
       - mongo

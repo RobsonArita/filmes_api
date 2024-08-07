@@ -74,13 +74,19 @@ Para rodar a aplicação em standalone com docker:
    yarn dev
    ```
 
-## Execução com Docker
+### Execução com Docker
 
 Para construir e iniciar a aplicação usando Docker:
 
 ```bash
 docker-compose up --build
 ```
+
+Obs: caso em ambiente Windows retorne um erro ao inicializar a API, utilize o comando:
+```bash
+dos2unix start.sh
+```
+Convertendo o formato Windows para Unix.
 
 ## Uso
 
@@ -91,7 +97,7 @@ Existem recursos que exigem a autenticação de um usuário admininstrador. Para
 
 ## Endpoints
 
-Foram adicionados ao ambiente Postman, todos os endpoints juntamente com os casos de exemplo de envio e exemplo de retorno.
+Foram adicionados ao ambiente Postman todos os endpoints juntamente com os casos de exemplo de envio e exemplo de retorno.
 
 Endpoints no postman:
 [Filmes API.postman_collection.json](https://github.com/user-attachments/files/16488393/Filmes.API.postman_collection.json)
